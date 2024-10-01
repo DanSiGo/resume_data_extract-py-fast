@@ -4,6 +4,8 @@ from data_treatment import pdf_to_string
 
 root_dir = '/home/daniel/Desktop/resume_data_extract-py-fast/machine_learning/data/data'
 output_file = 'processed_resumes.csv'
+resume_id_counter = 1
+
 
 with open(output_file, 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
@@ -24,10 +26,8 @@ with open(output_file, 'w', newline='') as csvfile:
         for pdf_file in os.listdir(field_dir):
             if pdf_file.endswith('.pdf'):
                 pdf_file_path = os.path.join(field_dir, pdf_file)
-                resume_id = pdf_file.split('.')[0]
+                resume_id = resume_id_counter
+                resume_id_counter += 1
 
                 text_final = pdf_to_string(pdf_file_path)
-
-                with open(output_file, 'a', newline='') as csvfile:
-                    writer = csv.writer(csvfile)
-                    writer.writerow([resume_id, field_id, field_name, text_final])
+                writer.writerow([resume_id, field_id, field_name, text_final])
